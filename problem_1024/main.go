@@ -37,7 +37,7 @@ func main() {
 	}
 }
 
-//	reverse the bits of a uint64 number
+//	reverse the bits of a uint32 number
 func reverseBits(num uint32) uint32 {
 
 	var result uint32 = 0
