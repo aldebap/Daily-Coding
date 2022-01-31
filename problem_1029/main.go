@@ -30,6 +30,7 @@ func main() {
 		{input: 16, result: 3},
 		{input: 68, result: 7},
 		{input: 87, result: 6},
+		{input: 124, result: 10},
 	}
 
 	for _, test := range testScenarios {
@@ -47,7 +48,7 @@ func main() {
 		}
 		coinsStr += " ]"
 
-		fmt.Printf("input: %d cents; expected coins: %s; result: %d\n", test.input, coinsStr,
+		fmt.Printf("input: %d cents; expected coins: %d; coins: %s; result: %d\n", test.input, test.result, coinsStr,
 			len(coins))
 	}
 }
