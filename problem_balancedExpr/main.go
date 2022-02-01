@@ -6,147 +6,53 @@
 
 package main
 
-import (
-	"fmt"
-)
-
-////////////////////////////////////////////////////////////////////////////////
-//	Solution entry point
-////////////////////////////////////////////////////////////////////////////////
-
-func main() {
-
-	//	splash screen
-	fmt.Printf(">>> Problem Balanced Expression\n\n")
-
-	//	a few test cases
-	type testCase struct {
-		input  string
-		result bool
-	}
-
-	var testScenarios []testCase = []testCase{
-		{input: "", result: true},
-		{input: "()", result: true},
-		{input: "(", result: false},
-		{input: ")", result: false},
-		{input: "[]", result: true},
-		{input: "[", result: false},
-		{input: "]", result: false},
-		{input: "{}", result: true},
-		{input: "{", result: false},
-		{input: "}", result: false},
-		{input: "([)", result: false},
-		{input: "({)", result: false},
-		{input: "([{}])", result: true},
-		{input: "()[]{}", result: true},
-		{input: "([{}])[{}]", result: true},
-		{input: "([{}])[(}]", result: false},
-	}
-
-	for _, test := range testScenarios {
-
-		fmt.Printf("input: %s ; expected: %t; result: %t\n", test.input, test.result, isBalanced(test.input))
-	}
-}
-
 //	return true if the input expression is balanced
 func isBalanced(expression string) bool {
 
 	//fmt.Printf("[debug] checking expression: %s\n", expression)
+	//	check for rule #1
 	if len(expression) == 0 {
 		return true
 	}
 
-	//	subexpression between parenthesis
-	if expression[0] == '(' {
-
-		openParentesis := 1
-		i := 1
-
-		for ; i < len(expression); i++ {
-
-			if expression[i] == '(' {
-				openParentesis++
-			}
-			if expression[i] == ')' {
-				openParentesis--
-			}
-			//	when all opened parenthesis are closed, check the subexpressions: (A)B
-			if openParentesis == 0 {
-				subExprA := ""
-				subExprB := ""
-
-				if i > 1 && i < len(expression) {
-					subExprA = expression[1:i]
-				}
-				if i+1 < len(expression) {
-					subExprB = expression[i+1:]
-				}
-
-				return isBalanced(subExprA) && isBalanced(subExprB)
-			}
-		}
+	//	the valid expression delimiters
+	var expressionDelimiter = []struct {
+		openToken, closeToken byte
+	}{
+		{openToken: '(', closeToken: ')'},
+		{openToken: '[', closeToken: ']'},
+		{openToken: '{', closeToken: '}'},
 	}
 
-	//	subexpression between square brackets
-	if expression[0] == '[' {
+	for _, delimiter := range expressionDelimiter {
 
-		openSquareBrackets := 1
-		i := 1
+		if expression[0] == delimiter.openToken {
 
-		for ; i < len(expression); i++ {
+			openDelimiter := 1
+			i := 1
 
-			if expression[i] == '[' {
-				openSquareBrackets++
-			}
-			if expression[i] == ']' {
-				openSquareBrackets--
-			}
-			//	when all opened square brackets are closed, check the subexpressions: [A]B
-			if openSquareBrackets == 0 {
-				subExprA := ""
-				subExprB := ""
+			for ; i < len(expression); i++ {
 
-				if i > 1 && i < len(expression) {
-					subExprA = expression[1:i]
+				if expression[i] == delimiter.openToken {
+					openDelimiter++
 				}
-				if i+1 < len(expression) {
-					subExprB = expression[i+1:]
+				if expression[i] == delimiter.closeToken {
+					openDelimiter--
 				}
+				//	when all opened parenthesis are closed, check the subexpressions: (A)B
+				if openDelimiter == 0 {
+					var subExprA, subExprB string
 
-				return isBalanced(subExprA) && isBalanced(subExprB)
-			}
-		}
-	}
+					if i > 1 && i < len(expression) {
+						subExprA = expression[1:i]
+					}
+					if i+1 < len(expression) {
+						subExprB = expression[i+1:]
+					}
 
-	//	subexpression between brackets
-	if expression[0] == '{' {
-
-		openBrackets := 1
-		i := 1
-
-		for ; i < len(expression); i++ {
-
-			if expression[i] == '{' {
-				openBrackets++
-			}
-			if expression[i] == '}' {
-				openBrackets--
-			}
-			//	when all opened brackets are closed, check the subexpressions: {A}B
-			if openBrackets == 0 {
-				subExprA := ""
-				subExprB := ""
-
-				if i > 1 && i < len(expression) {
-					subExprA = expression[1:i]
+					//	check for rules #2 and #5
+					return (len(subExprA) == 0 || isBalanced(subExprA)) && (len(subExprB) == 0 || isBalanced(subExprB))
 				}
-				if i+1 < len(expression) {
-					subExprB = expression[i+1:]
-				}
-
-				return isBalanced(subExprA) && isBalanced(subExprB)
 			}
 		}
 	}
