@@ -48,10 +48,28 @@ func TestExpressions(t *testing.T) {
 
 		for _, test := range testScenarios {
 
-			want := test.result
-			got := isBalanced(test.input)
+			fmt.Printf("input: '%s'\texpected: %t\n", test.input, test.result)
 
-			fmt.Printf("input: %s ; result: %t\n", test.input, got)
+			//	test the simple implementation
+			want := test.result
+			got := isBalancedSimple(test.input)
+
+			if want != got {
+				t.Errorf("input: %s ; expected: %t result: %t", test.input, want, got)
+			}
+
+			//	test the refactored implementation
+			want = test.result
+			got = isBalancedRefactored(test.input)
+
+			if want != got {
+				t.Errorf("input: %s ; expected: %t result: %t", test.input, want, got)
+			}
+
+			//	test the non recursive implementation
+			want = test.result
+			got = isBalancedNonRecursive(test.input)
+
 			if want != got {
 				t.Errorf("input: %s ; expected: %t result: %t", test.input, want, got)
 			}
