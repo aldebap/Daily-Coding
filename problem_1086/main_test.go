@@ -24,7 +24,8 @@ func TestSodokuSolver(t *testing.T) {
 			sodokuGame sodoku
 			result     bool
 		}{
-			{sodokuGame: sodoku{{3, 0, 2, 0, 8, 0, 1, 0, 5},
+			{sodokuGame: sodoku{
+				{3, 0, 2, 0, 8, 0, 1, 0, 5},
 				{0, 0, 7, 2, 0, 0, 0, 6, 0},
 				{5, 0, 8, 9, 0, 0, 0, 4, 7},
 				{0, 8, 0, 4, 0, 0, 3, 0, 2},
@@ -39,40 +40,22 @@ func TestSodokuSolver(t *testing.T) {
 		for _, test := range testScenarios {
 
 			fmt.Printf(">>> [test] Sodoku: \n")
-			printSodoku(test.sodokuGame)
+			print(&test.sodokuGame)
 
-			//	run matrix verification
+			//	try to solve the Sodoku
+			solution, err := solve(&test.sodokuGame)
+			if err != nil {
+				t.Errorf("error: %s", err)
+			} else {
+				fmt.Printf("[test] solution: \n")
+				print(solution)
+			}
+
 			want := test.result
-			got := isSodokuSolved(test.sodokuGame)
-
+			got := isSolved(solution)
 			if want != got {
 				t.Errorf("expected: %t result: %t", want, got)
 			}
 		}
 	})
-}
-
-func printSodoku(input sodoku) {
-
-	fmt.Printf("+-------+-------+-------+\n")
-
-	for i := 0; i < 9; i++ {
-		fmt.Printf("| ")
-		for j := 0; j < 9; j++ {
-			if input[i][j] == 0 {
-				fmt.Printf("  ")
-			} else {
-				fmt.Printf("%d ", input[i][j])
-			}
-
-			if (j+1)%3 == 0 {
-				fmt.Printf("| ")
-			}
-		}
-		fmt.Printf("\n")
-
-		if (i+1)%3 == 0 {
-			fmt.Printf("+-------+-------+-------+\n")
-		}
-	}
 }
