@@ -103,7 +103,7 @@ func solve(input *sodoku) (*sodoku, error) {
 //	return true if the Sodoku matrix is a valid
 func isSolved(input *sodoku) bool {
 
-	//	check Sodoku lines
+	//	check if Sodoku lines have empty space or duplicate digits
 	for i := 0; i < 9; i++ {
 		var digit [9]bool
 
@@ -120,15 +120,12 @@ func isSolved(input *sodoku) bool {
 		}
 	}
 
-	//	check Sodoku columns
+	//	check if Sodoku columns have duplicate digits
 	for i := 0; i < 9; i++ {
 		var digit [9]bool
 
 		for j := 0; j < 9; j++ {
 
-			if input[j][i] == 0 {
-				return false
-			}
 			if digit[input[j][i]-1] {
 				return false
 			}
@@ -137,7 +134,23 @@ func isSolved(input *sodoku) bool {
 		}
 	}
 
-	//	TODO: do I need to check each of 3x3 boxes ?
+	//	check in the same box for digits already used
+	for boxLine := 0; boxLine < 3; boxLine++ {
+		for boxColumn := 0; boxColumn < 3; boxColumn++ {
+			var digit [9]bool
+
+			for i := 0; i < 3; i++ {
+				for j := 0; j < 3; j++ {
+					if digit[input[3*boxLine+i][3*boxColumn+j]-1] {
+						return false
+					}
+
+					digit[input[3*boxLine+i][3*boxColumn+j]-1] = true
+				}
+			}
+		}
+	}
+
 	return true
 }
 
