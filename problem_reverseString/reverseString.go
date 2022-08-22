@@ -8,7 +8,7 @@ package main
 
 import "regexp"
 
-//	return the reverse of a string (keeping symbold where they are)
+//	reverseString return the reverse of a string (keeping symbold where they are)
 func reverseString(input string) string {
 	var result string
 
