@@ -53,6 +53,28 @@ func TestWordPuzzleGame(t *testing.T) {
 				{'T', 'L', 'A', 'E', 'R', 'E', 'S'},
 				{'Y', 'Z', 'X', 'E', 'R', 'L', 'W'}},
 				search: "WELD", result: true},
+
+			{wordPuzzle: [][]byte{{'A', 'U', 'I', 'K', 'F', 'W', 'N'},
+				{'W', 'Q', 'B', 'T', 'L', 'X', 'P'},
+				{'T', 'L', 'A', 'E', 'R', 'E', 'S'},
+				{'Y', 'C', 'X', 'E', 'R', 'L', 'W'}},
+				search: "CAT", result: true},
+			{wordPuzzle: [][]byte{{'A', 'U', 'I', 'K', 'F', 'W', 'N'},
+				{'W', 'Q', 'B', 'O', 'L', 'X', 'P'},
+				{'T', 'L', 'A', 'E', 'R', 'E', 'S'},
+				{'Y', 'M', 'X', 'E', 'R', 'L', 'W'}},
+				search: "FOAM", result: true},
+
+			{wordPuzzle: [][]byte{{'A', 'U', 'I', 'K', 'F', 'W', 'N'},
+				{'W', 'Q', 'B', 'O', 'L', 'X', 'P'},
+				{'T', 'L', 'A', 'E', 'R', 'E', 'S'},
+				{'Y', 'Z', 'X', 'E', 'R', 'L', 'W'}},
+				search: "PET", result: false},
+			{wordPuzzle: [][]byte{{'A', 'U', 'I', 'K', 'F', 'W', 'N'},
+				{'W', 'Q', 'B', 'O', 'L', 'X', 'P'},
+				{'T', 'L', 'A', 'E', 'R', 'E', 'S'},
+				{'Y', 'Z', 'X', 'E', 'R', 'L', 'W'}},
+				search: "HUMANITY", result: false},
 		}
 
 		for _, test := range testScenarios {

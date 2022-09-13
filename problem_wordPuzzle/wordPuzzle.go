@@ -55,7 +55,7 @@ func ExistsInWordPuzzle(word string, puzzle [][]byte) bool {
 
 	//  second, same column search
 	for i, _ := range puzzle[0] {
-		//  top to down
+		//  top to bottom
 		for j, _ := range puzzle {
 			found := true
 			for k, _ := range word {
@@ -69,12 +69,12 @@ func ExistsInWordPuzzle(word string, puzzle [][]byte) bool {
 				}
 			}
 			if found {
-				fmt.Printf("[debug] top to down\n")
+				fmt.Printf("[debug] top to bottom\n")
 				return true
 			}
 		}
 
-		//  down to top
+		//  bottom to top
 		for j := len(puzzle) - 1; j >= 0; j-- {
 			found := true
 			for k, _ := range word {
@@ -88,7 +88,7 @@ func ExistsInWordPuzzle(word string, puzzle [][]byte) bool {
 				}
 			}
 			if found {
-				fmt.Printf("[debug] down to top\n")
+				fmt.Printf("[debug] bottom to top\n")
 				return true
 			}
 		}
@@ -96,7 +96,7 @@ func ExistsInWordPuzzle(word string, puzzle [][]byte) bool {
 
 	//  third, back slash like diagonal
 	for i, _ := range puzzle[0] {
-		//  top-left to down-rigth
+		//  top-left to bottom-rigth
 		for j, _ := range puzzle {
 			found := true
 			for k, _ := range word {
@@ -114,12 +114,12 @@ func ExistsInWordPuzzle(word string, puzzle [][]byte) bool {
 				}
 			}
 			if found {
-				fmt.Printf("[debug] top-left to down-rigth\n")
+				fmt.Printf("[debug] top-left to bottom-rigth\n")
 				return true
 			}
 		}
 
-		//  down-rigth to top-left
+		//  bottom-rigth to top-left
 		for j := len(puzzle) - 1; j >= 0; j-- {
 			found := true
 			for k, _ := range word {
@@ -137,13 +137,60 @@ func ExistsInWordPuzzle(word string, puzzle [][]byte) bool {
 				}
 			}
 			if found {
-				fmt.Printf("[debug] down-rigth to top-left\n")
+				fmt.Printf("[debug] bottom-rigth to top-left\n")
 				return true
 			}
 		}
 	}
 
 	//  fourth, slash like diagonal
+	for i, _ := range puzzle[0] {
+		//  bottom-left to top-rigth
+		for j := len(puzzle) - 1; j >= 0; j-- {
+			found := true
+			for k, _ := range word {
+				if j-k < 0 {
+					found = false
+					break
+				}
+				if i+k > len(puzzle[0])-1 {
+					found = false
+					break
+				}
+				if puzzle[j-k][i+k] != word[k] {
+					found = false
+					break
+				}
+			}
+			if found {
+				fmt.Printf("[debug] bottom-left to top-rigth\n")
+				return true
+			}
+		}
+
+		//  top-rigth to bottom-left
+		for j, _ := range puzzle {
+			found := true
+			for k, _ := range word {
+				if j+k > len(puzzle)-1 {
+					found = false
+					break
+				}
+				if i-k < 0 {
+					found = false
+					break
+				}
+				if puzzle[j+k][i-k] != word[k] {
+					found = false
+					break
+				}
+			}
+			if found {
+				fmt.Printf("[debug] top-rigth to bottom-left\n")
+				return true
+			}
+		}
+	}
 
 	return false
 }
